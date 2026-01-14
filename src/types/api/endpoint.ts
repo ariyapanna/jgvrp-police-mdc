@@ -1,6 +1,9 @@
 export const ApiEndpoint = {
-    GET_USER: 'me',
-    GET_UNITS: 'units',
+    USER: 'me',
+    UNITS: 'units',
+    PERSON: 'person',
+    VEHICLE: 'vehicle',
+    TRACE_PHONE: 'trace'
 }
 
 export type ApiEndpoint = typeof ApiEndpoint[keyof typeof ApiEndpoint];

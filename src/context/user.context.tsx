@@ -22,11 +22,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         const loadUser = async() => {
             try 
             {
-                const response = await http<ApiResponse<User>>(ApiEndpoint.GET_USER);
+                const response = await http<ApiResponse<User>>(ApiEndpoint.USER);
                 if(!response.success)
                     throw new Error(response.message);
 
-                console.log(response.data);
                 setUser(response.data);
             }
             catch(error: any)

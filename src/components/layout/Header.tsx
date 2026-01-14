@@ -28,7 +28,7 @@ const Header = ({ unitPanelState, onToggleUnitPanelClicked }: HeaderProps) => {
     }
 
     return (
-        <header className="h-14 bg-[#0a0a0a] border-b border-white/5 flex items-center justify-between px-4 z-50">
+        <header className="h-14 bg-[#0a0a0a] border-b border-white/5 grid grid-cols-2 md:grid-cols-3 items-center px-4 z-50">
             <div className="flex items-center gap-3 min-w-[150px]">
                 <div className="w-10 h-10 bg-[#1a1a1a] rounded flex items-center justify-center border border-white/10">
                     {user?.mugshot && (
@@ -46,7 +46,7 @@ const Header = ({ unitPanelState, onToggleUnitPanelClicked }: HeaderProps) => {
                 <h1 className="text-sm font-black tracking-[0.3em] uppercase opacity-80">Mobile Data Computers</h1>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex justify-end items-center gap-4">
                 <button 
                     onClick={() => onToggleUnitPanelClicked(!unitPanelState)}
                     className={`p-2 rounded transition-colors xl:hidden ${unitPanelState ? 'bg-blue-600/20 text-blue-400' : 'text-gray-500'}`}

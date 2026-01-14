@@ -5,3 +5,5 @@ export const FactionType = {
 }
 
 export type FactionType = keyof typeof FactionType
+
+export const FACTIONS: FactionType[] = ["LSPD", "LSSD", "LSFD"];

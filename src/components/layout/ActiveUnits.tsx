@@ -3,16 +3,17 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "@/context/user.context";
 
 import { ChevronDown, ChevronRight, User, Circle } from "lucide-react";
+import { toast } from "react-toastify";
 
 import { http } from "@/lib/api/http";
 import type { ApiResponse } from "@/lib/api/response";
 import { getFactionKey } from "@/lib/faction/mapping";
 
 import { ApiEndpoint } from "@/types/api/endpoint";
-import type { FactionType } from "@/types/faction/factionType";
 import type { Unit } from "@/types/unit/unit";
 
-import { toast } from "react-toastify";
+import { FACTIONS, type FactionType } from "@/types/faction/factionType";
+import { FACTION_COLOR, FACTION_COLOR_MUTED } from "@/types/faction/factionColor";
 
 type Department = FactionType;
 
@@ -27,11 +28,12 @@ const ActiveUnits: React.FC = () => {
     });
     const [error, setError] = useState<string | null>(null);
 
+    const userFaction = getFactionKey(user?.factionId);
+
     useEffect(() => {
-        if(!user) 
+        if(!userFaction) 
             return;
 
-        const userFaction = getFactionKey(user.factionId, user.factionName);
         setCollapsed({
             LSPD: userFaction !== "LSPD",
             LSFD: userFaction !== "LSFD",
@@ -43,7 +45,7 @@ const ActiveUnits: React.FC = () => {
         const loadUnits = async () => {
             try 
             {
-                const response = await http<ApiResponse<Unit[]>>(ApiEndpoint.GET_UNITS);
+                const response = await http<ApiResponse<Unit[]>>(ApiEndpoint.UNITS);
                 if(!response.success) throw new Error(response.message);
 
                 setUnits(response.data);
@@ -62,12 +64,17 @@ const ActiveUnits: React.FC = () => {
             toast.error(error);
     }, [error]);
 
+    const orderedFactions: FactionType[] = userFaction
+        ? [userFaction, ...FACTIONS.filter(f => f !== userFaction)]
+        : FACTIONS;
+
     const toggleDept = (dept: Department) => setCollapsed(prev => ({ ...prev, [dept]: !prev[dept] }));
 
     const renderDeptGroup = (dept: Department) => {
         const deptUnits = units.filter(u => getFactionKey(u.factionId) === dept);
         const isCollapsed = collapsed[dept];
         const Icon = isCollapsed ? ChevronRight : ChevronDown;
+        const isUserFaction = dept === userFaction;
 
         return (
             <div key={dept} className="border-b border-white/5 last:border-0">
@@ -76,10 +83,16 @@ const ActiveUnits: React.FC = () => {
                     className="w-full flex items-center justify-between p-3 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
                 >
                     <div className="flex items-center gap-2">
-                        <Icon className="w-3.5 h-3.5 text-gray-500" />
+                      <Icon
+                            className={`w-3.5 h-3.5 ${
+                                isUserFaction ? FACTION_COLOR[dept] : "text-gray-500"
+                            }`}
+                        />
                         <span
                             className={`text-[10px] font-black tracking-[0.2em] ${
-                            dept === getFactionKey(user?.factionId, user?.factionName) ? "text-blue-400" : "text-gray-400"
+                                isUserFaction
+                                    ? FACTION_COLOR[dept]
+                                    : FACTION_COLOR_MUTED[dept]
                             }`}
                         >
                             {dept} <span className="opacity-40 font-mono ml-1">({deptUnits.length})</span>
@@ -92,29 +105,31 @@ const ActiveUnits: React.FC = () => {
                     <div className="animate-in slide-in-from-top-1 duration-200">
                         {deptUnits.map(unit => (
                             <div
-                            key={unit.name}
-                            className="px-4 py-2.5 hover:bg-white/[0.03] flex items-center justify-between group border-b border-white/[0.02] last:border-0"
+                                key={unit.name}
+                                className="px-4 py-2.5 hover:bg-white/[0.03] flex items-center justify-between group border-b border-white/[0.02] last:border-0"
                             >
-                            <div className="flex flex-col gap-2">
-                                <span className="text-[11px] font-black tracking-wider text-gray-200 uppercase">
-                                {unit.name}
-                                </span>
-                                <div className="flex items-center gap-1.5 opacity-60">
-                                    <User className="w-2.5 h-2.5 text-gray-400" />
-                                    <span className="text-[9px] font-mono uppercase text-gray-400">{unit.members[0].name}</span>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center gap-2">
-                                {unit?.status && (
-                                    <span
-                                        className='text-[8px] font-black tracking-tighter uppercase px-1.5 py-0.5 rounded border border-white/5 text-gray-500'
-                                    >
-                                        {unit.status.toUpperCase()}
+                                <div className="flex flex-col gap-2">
+                                    <span className="text-[11px] font-black tracking-wider text-gray-200 uppercase">
+                                        {unit.name}
                                     </span>
-                                )}
-                                <div className='w-1.5 h-1.5 rounded-full bg-current text-gray-500' />
-                            </div>
+                                        {unit.members.map(member => (
+                                            <div key={member.id} className="flex items-center gap-1.5 opacity-60">
+                                                <User className="w-2.5 h-2.5 text-gray-400" />
+                                                <span className="text-[9px] font-mono uppercase text-gray-400">{member.name}</span>
+                                            </div>
+                                        ))}
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                    {unit?.status && (
+                                        <span
+                                            className='text-[8px] font-black tracking-tighter uppercase px-1.5 py-0.5 rounded border border-white/5 text-gray-500'
+                                        >
+                                            {unit.status.toUpperCase()}
+                                        </span>
+                                    )}
+                                    <div className='w-1.5 h-1.5 rounded-full bg-current text-gray-500' />
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -138,7 +153,7 @@ const ActiveUnits: React.FC = () => {
         </div>
 
         <div className="flex-1 overflow-y-auto custom-scrollbar bg-[#050505]">
-            {(["LSPD", "LSSD", "LSFD"] as Department[]).map(renderDeptGroup)}
+            {orderedFactions.map(renderDeptGroup)}
         </div>
     </div>
   );

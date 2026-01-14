@@ -4,9 +4,14 @@ import Header from '@/components/layout/Header'
 import ActiveUnits from './components/layout/ActiveUnits';
 import Footer from '@/components/layout/Footer';
 
-import Home from '@/features/home/Home';
 import { Page } from './types/page/page';
 import { useHistory } from './context/history.context';
+
+import Home from '@/features/home/Home';
+// import PersonLookup from '@/features/person/PersonLookup';
+// import PersonDetail from '@/features/person/PersonDetail';
+// import VehicleLookup from '@/features/vehicle/VehicleLookup';
+import TracePhone from './features/trace-phone/TracePhone';
 
 function App() {
     const { current } = useHistory();
@@ -16,6 +21,10 @@ function App() {
         switch(current)
         {
             case Page.HOME: return <Home  />
+            // case Page.PERSON_LOOKUP: return <PersonLookup />;
+            // case Page.PERSON_DETAIL: return <PersonDetail />
+            // case Page.VEHICLE_LOOKUP: return <VehicleLookup />
+            case Page.PHONE_TRACE: return <TracePhone />;
             default: return 'Under Development';
         }
     }
@@ -25,9 +34,7 @@ function App() {
             <Header unitPanelState={unitPanelState} onToggleUnitPanelClicked={setUnitPanelState} />
             <div className="flex-1 flex overflow-hidden">
                 <main className="flex-1 overflow-y-auto relative bg-[#050505] custom-scrollbar">
-                    <div className="p-4 md:p-6 lg:p-8">
-                        {renderPage()}
-                    </div>
+                    {renderPage()}
                 </main>
                 <aside className={`
                     ${unitPanelState ? 'flex' : 'hidden'} 
