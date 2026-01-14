@@ -54,7 +54,6 @@ export async function http<T>(endpoint: ApiEndpoint, payload?: any, method: Http
             message: 'Too many requests or unable to connect to server. Please try again later.'
         };
     }
-    console.log(response);
 
     if(!response.ok)
     {

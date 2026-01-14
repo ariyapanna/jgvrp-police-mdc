@@ -1,6 +1,6 @@
 import { useHistory } from "@/context/history.context";
 
-import { Car, FileText, Phone, Radio, Search, ShieldAlert, Ticket } from "lucide-react";
+import { Car, FileText, Phone, QrCode, Radio, Search, ShieldAlert, Ticket } from "lucide-react";
 
 import { QuickMenu, type QuickMenuData } from "./QuickMenu";
 import { Page } from "@/types/page/page";
@@ -86,26 +86,39 @@ const Home = () => {
             borderColor: 'border-cyan-900/40',
             backgroundColor: 'bg-cyan-500/5'
         },
+        {
+            id: Page.QR_CODE,
+            label: 'QR Code',
+            description: '(( SCAN TO OPEN ON YOUR DEVICE ))',
+
+            icon: QrCode,
+            iconColor: 'text-sky-500',
+
+            borderColor: 'border-sky-900/40',
+            backgroundColor: 'bg-sky-500/5'
+        }
     ];
 
     return (
-        <div className="container mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-in fade-in zoom-in duration-500">
-                {menuCards.map((card) => (
-                    <QuickMenu
-                        key={card.id}
-                        label={card.label}
-                        description={card.description}
+        <div className="p-4 md:p-6 lg:p-8">
+            <div className="container mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-in fade-in zoom-in duration-500">
+                    {menuCards.map((card) => (
+                        <QuickMenu
+                            key={card.id}
+                            label={card.label}
+                            description={card.description}
 
-                        icon={card.icon}
-                        iconColor={card.iconColor}
-                        
-                        borderColor={card.borderColor}
-                        backgroundColor={card.backgroundColor}
-                        
-                        onClick={() => goTo(card.id)}
-                    />
-                ))}
+                            icon={card.icon}
+                            iconColor={card.iconColor}
+                            
+                            borderColor={card.borderColor}
+                            backgroundColor={card.backgroundColor}
+                            
+                            onClick={() => goTo(card.id)}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     )

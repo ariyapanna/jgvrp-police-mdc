@@ -7,12 +7,15 @@ import App from './App.tsx'
 import { UserProvider } from '@/context/user.context.tsx'
 import { Bounce, ToastContainer } from 'react-toastify'
 import { HistoryProvider } from './context/history.context.tsx'
+import { PersonDetailProvider } from './context/person-detail.context.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <UserProvider>
       <HistoryProvider>
-        <App />
+        <PersonDetailProvider>
+          <App />
+        </PersonDetailProvider>
       </HistoryProvider>
     </UserProvider>
     <ToastContainer

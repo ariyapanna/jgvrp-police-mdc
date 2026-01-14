@@ -1,0 +1,99 @@
+import { useEffect, useState } from "react";
+
+import SearchableList from "@/components/searchable-list/SearchableList";
+
+import { Phone } from "lucide-react";
+import { toast } from "react-toastify";
+
+import { tracePhone } from "./api";
+import { delay } from "@/utils/delay";
+import { TraceStage } from "@/types/trace-phone/traceStage";
+
+const TracePhone = () => {
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>('');
+
+    const [stage, setStage] = useState<TraceStage>(TraceStage.IDLE);
+    const [searchQuery, setSearchQuery] = useState<string>('');
+
+    async function trace()
+    {
+        setLoading(true);
+        try 
+        {
+            if(!searchQuery)
+                return setError("Please enter a phone number.");
+
+            setStage(TraceStage.INIT);
+
+            await delay(600);
+            setStage(TraceStage.PINGING);
+
+            await delay(800);
+            setStage(TraceStage.TRIANGULATING);
+
+            const response = await tracePhone(searchQuery);
+            if(!response.success)
+                throw new Error(response.message);
+
+            await delay(700);
+            setStage(TraceStage.RESOLVING);
+
+            await delay(500);
+            setStage(TraceStage.SUCCESS);
+
+            toast.success("Location acquired");
+        }
+        catch(error: any)
+        {
+            setError(error.message);
+        }
+        finally
+        {
+            setLoading(false);
+        }
+    }
+
+    function TracePanel({ stage }: { stage: TraceStage }) 
+    {
+        const labelMap: Record<TraceStage, string> = {
+            IDLE: "Awaiting phone number input",
+            INIT: "Initializing signal trace…",
+            PINGING: "Pinging cellular towers…",
+            TRIANGULATING: "Resolving triangulation…",
+            RESOLVING: "Decrypting carrier response…",
+            SUCCESS: "Location acquired"
+        };
+
+        return (
+            <div className="h-full flex items-center justify-center">
+                <div className="flex items-center gap-3 text-sm font-mono text-zinc-400 animate-pulse">
+                    <span className="w-2 h-2 rounded-full bg-amber-500" />
+                    {labelMap[stage]}
+                </div>
+            </div>
+        );
+    }
+
+    useEffect(() => {
+        if(error)
+            toast.error(error);
+    }, [error]);
+
+    return (
+        <SearchableList
+            title="Trace Phone"
+            icon={Phone}
+
+            searchQuery={searchQuery}
+            onSearchQueryChange={setSearchQuery}
+            onSearchSubmit={trace}
+
+            loading={loading}
+        >
+            <TracePanel stage={stage} />
+        </SearchableList>
+    );
+}
+
+export default TracePhone;
