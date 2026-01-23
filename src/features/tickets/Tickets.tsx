@@ -46,7 +46,7 @@ const columns: Column<Ticket>[] = [
                 'bg-red-600/10 text-red-500 border-red-500/20'
                 }`}
             >
-            {row.status}
+            {row.status.toUpperCase()}
             </span>
         )
     },
