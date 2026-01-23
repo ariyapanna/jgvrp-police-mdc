@@ -1,9 +1,9 @@
 import type { FactionType } from "./factionType";
 
 export const FACTION_COLOR: Record<FactionType, string> = {
-    LSPD: "text-blue-400 hover:text-blue-300",
-    LSSD: "text-amber-400 hover:text-amber-300",
-    LSFD: "text-red-400 hover-text-red-300",
+    LSPD: "text-blue-400",
+    LSSD: "text-amber-400",
+    LSFD: "text-red-400",
 };
 
 export const FACTION_COLOR_MUTED: Record<FactionType, string> = {
