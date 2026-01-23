@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-import SearchableList from "@/components/searchable-list/SearchableList";
-
 import { Phone } from "lucide-react";
 import { toast } from "react-toastify";
 
 import { tracePhone } from "./api";
 import { delay } from "@/utils/delay";
 import { TraceStage } from "@/types/trace-phone/traceStage";
+import SectionPanel from "@/components/section-panel/SectionPanel";
+import SearchAction from "@/components/section-panel/actions/SearchAction";
 
 const TracePhone = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -22,7 +22,7 @@ const TracePhone = () => {
         try 
         {
             if(!searchQuery)
-                return setError("Please enter a phone number.");
+                throw new Error("Please enter a phone number.");
 
             setStage(TraceStage.INIT);
 
@@ -69,7 +69,7 @@ const TracePhone = () => {
             <div className="h-full flex items-center justify-center">
                 <div className="flex items-center gap-3 text-sm font-mono text-zinc-400 animate-pulse">
                     <span className="w-2 h-2 rounded-full bg-amber-500" />
-                    {labelMap[stage]}
+                    {labelMap[stage].toUpperCase()}
                 </div>
             </div>
         );
@@ -81,18 +81,22 @@ const TracePhone = () => {
     }, [error]);
 
     return (
-        <SearchableList
+        <SectionPanel
             title="Trace Phone"
             icon={Phone}
+            accent="cyan"
 
-            searchQuery={searchQuery}
-            onSearchQueryChange={setSearchQuery}
-            onSearchSubmit={trace}
-
-            loading={loading}
+            actions={
+                <SearchAction 
+                    value={searchQuery} 
+                    onChange={setSearchQuery} 
+                    onSubmit={trace} 
+                    loading={loading} 
+                />
+            }
         >
             <TracePanel stage={stage} />
-        </SearchableList>
+        </SectionPanel>
     );
 }
 
