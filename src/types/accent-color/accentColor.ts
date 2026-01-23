@@ -5,7 +5,9 @@ export type AccentColor =
   | "emerald"
   | "zinc"
   | "cyan"
-  | "pink";
+  | "pink"
+  | "rose"
+  | "indigo";
 
 export const ACCENT_STYLES: Record<AccentColor, {
     icon: string;
@@ -78,5 +80,23 @@ export const ACCENT_STYLES: Record<AccentColor, {
         buttonBg: "bg-pink-600",
         buttonHover: "hover:bg-pink-500",
         buttonShadow: "shadow-pink-600/10",
+    },
+    rose: {
+        icon: "text-rose-500",
+        bg: "bg-rose-500/10",
+        border: "border-rose-500/20",
+        text: "text-rose-500",
+        buttonBg: "bg-rose-600",
+        buttonHover: "hover:bg-rose-500",
+        buttonShadow: "shadow-rose-600/10",
+    },
+    indigo: {
+        icon: "text-indigo-500",
+        bg: "bg-indigo-500/10",
+        border: "border-indigo-500/20",
+        text: "text-indigo-500",
+        buttonBg: "bg-indigo-600",
+        buttonHover: "hover:bg-indigo-500",
+        buttonShadow: "shadow-indigo-600/10",
     }
 };
