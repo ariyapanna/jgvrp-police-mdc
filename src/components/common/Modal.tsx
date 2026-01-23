@@ -55,7 +55,7 @@ const Modal = ({ open, onClose, title, icon, children, size = "md" }: ModalProps
                     </div>
 
                     {/* Body */}
-                    <div className="p-6">
+                    <div className="p-6 overflow-y-auto">
                         {children}
                     </div>
                 </div>
