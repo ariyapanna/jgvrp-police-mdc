@@ -3,6 +3,8 @@ export const ApiEndpoint = {
     UNITS: 'units',
     PERSON: 'person',
     VEHICLE: 'vehicle',
+    TICKET: 'ticket',
+    BOLO: 'bolo',
     TRACE_PHONE: 'trace'
 }
 
