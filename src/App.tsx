@@ -11,9 +11,9 @@ import Home from '@/features/home/Home';
 // import PersonLookup from '@/features/person/PersonLookup';
 // import PersonDetail from '@/features/person/PersonDetail';
 // import VehicleLookup from '@/features/vehicle/VehicleLookup';
+import Tickets from '@/features/tickets/Tickets';
 import BOLO from '@/features/bolo/BOLO';
-import TracePhone from './features/trace-phone/TracePhone';
-// import Tickets from './features/tickets/Tickets';
+import TracePhone from '@/features/trace-phone/TracePhone';
 
 function App() {
     const { current } = useHistory();
@@ -26,7 +26,7 @@ function App() {
             // case Page.PERSON_LOOKUP: return <PersonLookup />;
             // case Page.PERSON_DETAIL: return <PersonDetail />
             // case Page.VEHICLE_LOOKUP: return <VehicleLookup />
-            // case Page.TICKETS: return <Tickets />
+            case Page.TICKETS: return <Tickets />
             case Page.BOLO: return <BOLO />
             case Page.PHONE_TRACE: return <TracePhone />;
             default: return 'Under Development';
