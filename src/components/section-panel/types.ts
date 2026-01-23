@@ -8,8 +8,6 @@ export interface SectionPanelProps
 
     actions?: React.ReactNode;
 
-    loading: boolean;
-
     children?: React.ReactNode;
     accent?: AccentColor;
 }
