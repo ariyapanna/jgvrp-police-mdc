@@ -27,7 +27,7 @@ function buildBasicAuth(token: string): string
   return `Basic ${btoa(`${token}:`)}`;
 }
 
-export async function http<T>(endpoint: ApiEndpoint, payload?: any, method: HttpMethod = HttpMethod.GET): Promise<T>
+export async function http<T>(endpoint: ApiEndpoint, method: HttpMethod = HttpMethod.GET, payload?: any): Promise<T>
 {
     const token = getToken();
     const config: RequestInit = {
