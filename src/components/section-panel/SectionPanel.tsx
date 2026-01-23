@@ -1,7 +1,7 @@
 import { ACCENT_STYLES } from "@/types/accent-color/accentColor";
 import type { SectionPanelProps } from "./types";
 
-const SectionPanel = ({ title, subtitle, icon: Icon, actions, loading, children, accent = "orange" }: SectionPanelProps) => {
+const SectionPanel = ({ title, subtitle, icon: Icon, actions, children, accent = "orange" }: SectionPanelProps) => {
     const styles = ACCENT_STYLES[accent];
 
     return (
