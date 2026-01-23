@@ -235,7 +235,7 @@ const BOLO = () => {
                 }}
 
                 icon={<Trash2 size={24} />}
-                title="Purge BOLO"
+                title="Remove BOLO"
                 description="Confirming this action will permanently remove this BOLO record."
 
                 loading={loading}
@@ -253,7 +253,6 @@ const BOLO = () => {
                 }
                 icon={Timer}
 
-                loading={loading}
                 accent="orange"
 
                 actions={
