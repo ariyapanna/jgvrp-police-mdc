@@ -69,7 +69,7 @@ const TracePhone = () => {
             <div className="h-full flex items-center justify-center">
                 <div className="flex items-center gap-3 text-sm font-mono text-zinc-400 animate-pulse">
                     <span className="w-2 h-2 rounded-full bg-amber-500" />
-                    {labelMap[stage].toUpperCase()}
+                    {labelMap[stage]}
                 </div>
             </div>
         );

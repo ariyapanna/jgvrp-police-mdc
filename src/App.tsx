@@ -14,6 +14,7 @@ import Home from '@/features/home/Home';
 import Tickets from '@/features/tickets/Tickets';
 import BOLO from '@/features/bolo/BOLO';
 import TracePhone from '@/features/trace-phone/TracePhone';
+import ArrestRecords from './features/arrest-records/ArrestRecords';
 
 function App() {
     const { current } = useHistory();
@@ -26,6 +27,7 @@ function App() {
             // case Page.PERSON_LOOKUP: return <PersonLookup />;
             // case Page.PERSON_DETAIL: return <PersonDetail />
             // case Page.VEHICLE_LOOKUP: return <VehicleLookup />
+            case Page.ARREST_RECORDS: return <ArrestRecords />
             case Page.TICKETS: return <Tickets />
             case Page.BOLO: return <BOLO />
             case Page.PHONE_TRACE: return <TracePhone />;
