@@ -37,10 +37,10 @@ const Home = () => {
             description: 'ISSUE OR REVIEW TRAFFIC AND VIOLATION TICKETS',
 
             icon: Ticket, 
-            iconColor: 'text-amber-500',
+            iconColor: 'text-pink-500',
 
-            borderColor: 'border-amber-900/40',
-            backgroundColor: 'bg-amber-500/5'
+            borderColor: 'border-pink-900/40',
+            backgroundColor: 'bg-pink-500/5'
         },
         { 
             id: Page.ARREST_WARRANTS, 
@@ -70,10 +70,10 @@ const Home = () => {
             description: 'RECEIVE ALERTS FOR WANTED PERSONS',
 
             icon: Radio, 
-            iconColor: 'text-pink-500',
+            iconColor: 'text-amber-500',
 
-            borderColor: 'border-pink-900/40',
-            backgroundColor: 'bg-pink-500/5'
+            borderColor: 'border-amber-900/40',
+            backgroundColor: 'bg-amber-500/5'
         },
         { 
             id: Page.PHONE_TRACE, 
