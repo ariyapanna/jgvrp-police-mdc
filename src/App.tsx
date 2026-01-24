@@ -11,10 +11,11 @@ import Home from '@/features/home/Home';
 // import PersonLookup from '@/features/person/PersonLookup';
 // import PersonDetail from '@/features/person/PersonDetail';
 // import VehicleLookup from '@/features/vehicle/VehicleLookup';
+import ArrestWarrants from './features/arrest-warrant/ArrestWarrants';
+import ArrestRecords from './features/arrest-records/ArrestRecords';
 import Tickets from '@/features/tickets/Tickets';
 import BOLO from '@/features/bolo/BOLO';
 import TracePhone from '@/features/trace-phone/TracePhone';
-import ArrestRecords from './features/arrest-records/ArrestRecords';
 
 function App() {
     const { current } = useHistory();
@@ -27,6 +28,7 @@ function App() {
             // case Page.PERSON_LOOKUP: return <PersonLookup />;
             // case Page.PERSON_DETAIL: return <PersonDetail />
             // case Page.VEHICLE_LOOKUP: return <VehicleLookup />
+            case Page.ARREST_WARRANTS: return <ArrestWarrants />
             case Page.ARREST_RECORDS: return <ArrestRecords />
             case Page.TICKETS: return <Tickets />
             case Page.BOLO: return <BOLO />
@@ -39,7 +41,7 @@ function App() {
         <div className='flex flex-col h-screen bg-[#050505] text-white overflow-hidden font-sans'>
             <Header unitPanelState={unitPanelState} onToggleUnitPanelClicked={setUnitPanelState} />
             <div className="flex-1 flex overflow-hidden">
-                <main className="flex-1 overflow-y-auto relative bg-[#050505] custom-scrollbar">
+                <main className="flex-1 overflow-y-auto relative bg-[#050505]">
                     {renderPage()}
                 </main>
                 <aside className={`
