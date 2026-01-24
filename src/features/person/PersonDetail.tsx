@@ -1,7 +1,7 @@
 import { useUser } from "@/context/user.context";
 import { usePersonDetail } from "@/context/person-detail.context";
 
-import { BookUser, Calendar, Car, Files, FileText, Fingerprint, IdCard, Phone, Receipt, ShieldAlert, Trash2, User } from "lucide-react";
+import { BookUser, Calendar, Car, Files, FileText, Fingerprint, IdCard, Info, Phone, Receipt, ShieldAlert, Trash2, User } from "lucide-react";
 import { toast } from "react-toastify";
 
 import Dossier from "@/components/dossier/Dossier";
@@ -30,7 +30,7 @@ import ConfirmDialog from "@/components/common/ConfirmDialog";
 import { deleteTicket } from "../tickets/api";
 import type { ArrestWarrant } from "@/types/arrest-warrant/arrestWarrant";
 import ArrestWarrantDetailModal from "../arrest-warrant/ArrestWarrantDetailModal";
-import { deleteWarrant } from "../arrest-warrant/api";
+import { deleteWarrant, updateWarrant } from "../arrest-warrant/api";
 import type { CrimeRecord } from "@/types/crime-record/crimeRecord";
 import type { ArrestRecord } from "@/types/arrest-record/arrestRecord";
 
@@ -206,10 +206,12 @@ const PersonDetail = () => {
     const [error, setError] = useState<string | null>(null);
 
     const [ticketToDelete, setTicketToDelete] = useState<number | null>(null);
-    const [warrantToDelete, setWarrantToDelete] = useState<number | null>(null);
+    const [warrantToManipulate, setWarrantToManipulate] = useState<number | null>(null);
 
     const [ticketDetailModalState, setTicketDetailModalState] = useState<boolean>(false);
     const [warrantDetailModalState, setWarrantDetailModalState] = useState<boolean>(false);
+
+    const [updateWarrantConfirmDialogState, setUpdateWarrantConfirmDialogState] = useState<boolean>(false);
 
     const [deleteTicketConfirmDialogState, setDeleteTicketConfirmDialogState] = useState<boolean>(false);
     const [deleteWarrantConfirmDialogState, setDeleteWarrantConfirmDialogState] = useState<boolean>(false);
@@ -284,12 +286,47 @@ const PersonDetail = () => {
 
             setTicketDetail(null);
 
-            await reloadPersonDetail();
             toast.success('Ticket successfully deleted.');
+            await reloadPersonDetail();
         }
         catch(error: any)
         {
             setError(error.message);
+        }
+        finally
+        {
+            setLoading(false);
+        }
+    }
+
+    async function handleWarrantUpdate(id: number)
+    {
+        setLoading(true);
+        try 
+        {
+            if(updateReason.length < 10)
+                throw new Error('Description must be at least 10 characters long.');
+
+            const parsedDuration = +updateDuration;
+            if(parsedDuration < 1)
+                throw new Error('Duration must be at least 1 month.');
+
+            const parsedFine = +updateFine;
+            if(parsedFine < 50)
+                throw new Error('A minimum fine of $50 is required.');
+
+            const response = await updateWarrant(id, updateReason, +updateDuration, +updateFine);
+            if(!response.success)
+                throw new Error(response.message);
+
+            setWarrantDetailModalState(false);
+
+            toast.success('Warrant successfully updated.');
+            await reloadPersonDetail();
+        }
+        catch(error: any)
+        {
+
         }
         finally
         {
@@ -362,9 +399,12 @@ const PersonDetail = () => {
                     arrestWarrantData={warrantDetail}
                     loading={loading}
 
-                    onUpdate={() => {}}
+                    onUpdate={(id) => {
+                        setWarrantToManipulate(id);
+                        setUpdateWarrantConfirmDialogState(true);
+                    }}
                     onDelete={(id) => {
-                        setWarrantToDelete(id);
+                        setWarrantToManipulate(id);
                         setDeleteWarrantConfirmDialogState(true);
                     }}
                 />
@@ -392,16 +432,37 @@ const PersonDetail = () => {
             />
 
             <ConfirmDialog
+                open={updateWarrantConfirmDialogState}
+
+                onClose={() => setUpdateWarrantConfirmDialogState(false)}
+                onConfirm={async () => {
+                    if(warrantToManipulate == null)
+                        return;
+
+                    await handleWarrantUpdate(warrantToManipulate);
+                    setUpdateWarrantConfirmDialogState(false);
+                    setWarrantToManipulate(null);
+                }}
+
+                icon={<Info className="w-4 h-4 text-yellow-500" />}
+                title="Update Warrant"
+                description="Are you sure you want to update this warrant?"
+
+                loading={loading}
+                danger={true}
+            />
+
+            <ConfirmDialog
                 open={deleteWarrantConfirmDialogState}
 
                 onClose={() => setDeleteWarrantConfirmDialogState(false)}
                 onConfirm={async () => {
-                    if(warrantToDelete == null)
+                    if(warrantToManipulate == null)
                         return;
 
-                    await handleWarrantDelete(warrantToDelete);
+                    await handleWarrantDelete(warrantToManipulate);
                     setDeleteWarrantConfirmDialogState(false);
-                    setWarrantToDelete(null);
+                    setWarrantToManipulate(null);
                 }}
 
                 icon={<Trash2 className="w-4 h-4 text-red-500" />}
