@@ -152,7 +152,7 @@ const ActiveUnits: React.FC = () => {
             </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto custom-scrollbar bg-[#050505]">
+        <div className="flex-1 overflow-y-auto bg-[#050505]">
             {orderedFactions.map(renderDeptGroup)}
         </div>
     </div>

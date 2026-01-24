@@ -82,7 +82,7 @@ const Tickets = () => {
     const [confirmDialogState, setConfirmDialogState] = useState<boolean>(false);
 
     useEffect(() => {
-        loadTickets(searchQuery);
+        loadTickets();
     }, []);
 
     useEffect(() => {
@@ -90,12 +90,12 @@ const Tickets = () => {
             toast.error(error);
     }, [error]);
 
-    async function loadTickets(keyword?: string) 
+    async function loadTickets() 
     {
         setLoading(true);
         try 
         {
-            const response = await getTickets(keyword);
+            const response = await getTickets(searchQuery);
             if(!response.success)
                 throw new Error(response.message);
             
@@ -138,7 +138,7 @@ const Tickets = () => {
             setFine('');
 
             toast.success('Ticket successfully issued.');
-            await loadTickets(searchQuery);
+            await loadTickets();
         }
         catch(error: any)
         {
@@ -181,7 +181,7 @@ const Tickets = () => {
             if(!response.success)
                 throw new Error(response.message);
 
-            await loadTickets(searchQuery);
+            await loadTickets();
             toast.success('Ticket successfully deleted.');
         }
         catch(error: any)
@@ -269,7 +269,7 @@ const Tickets = () => {
                         <SearchAction 
                             value={searchQuery} 
                             onChange={setSearchQuery} 
-                            onSubmit={() => loadTickets(searchQuery)} 
+                            onSubmit={() => loadTickets()} 
                             placeholder="Search target or issuer..."
                             loading={loading} 
                         />
