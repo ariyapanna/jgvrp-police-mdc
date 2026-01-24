@@ -1,40 +1,43 @@
-import SearchAction from "@/components/section-panel/actions/SearchAction";
-import SectionPanel from "@/components/section-panel/SectionPanel"
-import { Database } from "lucide-react"
 import { useEffect, useState } from "react";
-import { getPersonDetail, getPersons } from "./api";
-import type { Person } from "@/types/person/person";
 import { toast } from "react-toastify";
-import PersonCard from "./PersonCard";
-import { useHistory } from "@/context/history.context";
+import { getVehicles } from "./api";
+import SectionPanel from "@/components/section-panel/SectionPanel";
+import { Car } from "lucide-react";
+import VehicleItemCard from "./VehicleItemCard";
+import type { Vehicle } from "@/types/vehicle/vehicle";
+import SearchAction from "@/components/section-panel/actions/SearchAction";
+import { getPersonDetail } from "../person/api";
 import { usePersonDetail } from "@/context/person-detail.context";
+import { useHistory } from "@/context/history.context";
 import { Page } from "@/types/page/page";
 
-const PersonLookup = () => {
+const VehicleLookup = () => {
     const { goTo } = useHistory();
     const { setPerson } = usePersonDetail();
-
-    const [persons, setPersons] = useState<Person[]>([]);
-
-    const [searchQuery, setSearchQuery] = useState<string>('');
 
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>('');
 
-    async function loadPersons()
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [vehicleList, setVehicleList] = useState<Vehicle[]>([]);
+
+    async function searchVehicle()
     {
-        setLoading(true);
+        setLoading(true)
         try 
         {
-            if(searchQuery.length < 3)
-                throw new Error('Search query must be at least 3 characters long.');
+            if(searchQuery.length < 2)
+                return setError("Search query must be at least 2 characters long.");
 
-            const response = await getPersons(searchQuery);
+            const response = await getVehicles(searchQuery);
             if(!response.success)
                 throw new Error(response.message);
 
-            setPersons(response.data);
-            toast.success(`Found ${response.data.length} person(s)`);
+            if(response.data.length === 0)
+                return setError("No vehicles found.");
+
+            setVehicleList(response.data);
+            toast.info(`Found ${response.data.length} vehicle(s)`);
         }
         catch(error: any)
         {
@@ -46,7 +49,7 @@ const PersonLookup = () => {
         }
     }
 
-    async function loadPersonDetail(id: number)
+    async function loadPersonDetail(id: number) 
     {
         setLoading(true);
         try 
@@ -62,7 +65,6 @@ const PersonLookup = () => {
         {
             setError(error.message);
         }
-        finally
         {
             setLoading(false);
         }
@@ -71,43 +73,36 @@ const PersonLookup = () => {
     useEffect(() => {
         if(error)
             toast.error(error);
-    }, [error]);
+    }, [error])
 
     return (
         <SectionPanel
-            title="Person Lookup"
-            icon={Database}
+            title="Vehicle Database"
+            icon={Car}
 
-            accent="blue"
+            accent="emerald"
 
             actions={
                 <SearchAction
+                    loading={loading}
                     value={searchQuery}
                     onChange={setSearchQuery}
-                    onSubmit={loadPersons}
-                    loading={loading}
-                    placeholder="Search name..."
+                    onSubmit={() => searchVehicle()}
+                    placeholder="Search plate..."
                 />
             }
         >
-            {persons.length == 0 ? (
+            {vehicleList.length == 0 ? (
                 <div className="h-full flex flex-col items-center justify-center gap-3 opacity-30">
-                    <Database className="w-10 h-10" />
+                    <Car className="w-10 h-10" />
                     <p className="font-mono uppercase tracking-[0.4em] text-center">
                         Initialize database query via search interface
                     </p>
                 </div>
             ) : (
-                <div className="grid lg:grid-cols-2 gap-4">
-                    {persons.map((person) => {
-                        return (
-                            <PersonCard 
-                                key={person.id}
-                                loading={loading}
-                                person={person}
-                                onView={() => loadPersonDetail(person.id)}
-                            />
-                        );
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {vehicleList.map((vehicle: Vehicle) => {
+                        return <VehicleItemCard vehicle={vehicle} onClick={() => loadPersonDetail(vehicle.ownerId)} />
                     })}
                 </div>
             )}
@@ -115,4 +110,4 @@ const PersonLookup = () => {
     )
 }
 
-export default PersonLookup;
+export default VehicleLookup;

@@ -6,4 +6,5 @@ export interface Vehicle
     model: string;
     numberPlate: string;
     ownerType: VehicleOwnerType;
+    ownerId: number;
 }

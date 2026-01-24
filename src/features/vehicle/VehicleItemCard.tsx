@@ -15,9 +15,10 @@ import { copyToClipboard } from "@/utils/clipboard";
 interface VehicleItemCardProps 
 {
     vehicle: Vehicle
+    onClick?: () => void
 }
 
-const VehicleItemCard = ({ vehicle }: VehicleItemCardProps) => {
+const VehicleItemCard = ({ vehicle, onClick }: VehicleItemCardProps) => {
     const { user } = useUser();
 
     const userFaction = getFactionKey(user?.factionId);
@@ -34,6 +35,7 @@ const VehicleItemCard = ({ vehicle }: VehicleItemCardProps) => {
                     <Files className="w-3 h-3" />
                 </span>
             }
+            onClick={onClick}
             onBadgeClick={() => {
                 copyToClipboard(vehicle.numberPlate)
                 toast.success("Plate copied");
