@@ -1,5 +1,6 @@
 import Modal from "@/components/common/Modal"
 import type { ArrestWarrant } from "@/types/arrest-warrant/arrestWarrant"
+import { formatDate } from "@/utils/formatDate"
 
 import { Clock, DollarSign, Save, ShieldAlert, Trash2, User } from "lucide-react"
 
@@ -131,26 +132,47 @@ const ArrestWarrantDetailModal = ({ open, onClose, targetName, setTargetName, re
                             />
                         </div>
                     </div>
-                </div>
 
-                <div>
-                    <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
-                        Issuer
-                    </label>
+                    <div>
+                        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
+                            Issuer
+                        </label>
 
-                    <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-600" />
-                        <input
-                            type="text"
-                            value={arrestWarrantData.issuer}
-                            className="
-                                w-full pl-9 pr-3 py-2
-                                bg-black border border-white/10 rounded-lg
-                                text-xs font-mono text-zinc-200 placeholder:text-zinc-800
-                                focus:outline-none focus:border-pink-500/50 
-                            "
-                            disabled
-                        />
+                        <div className="relative">
+                            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-600" />
+                            <input
+                                type="text"
+                                value={arrestWarrantData.issuer}
+                                className="
+                                    w-full pl-9 pr-3 py-2
+                                    bg-black border border-white/10 rounded-lg
+                                    text-xs font-mono text-zinc-200 placeholder:text-zinc-800
+                                    focus:outline-none focus:border-pink-500/50 
+                                "
+                                disabled
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
+                            Issued On
+                        </label>
+
+                        <div className="relative">
+                            <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-600" />
+                            <input
+                                type="text"
+                                value={formatDate(arrestWarrantData.createdAt)}
+                                className="
+                                    w-full pl-9 pr-3 py-2
+                                    bg-black border border-white/10 rounded-lg
+                                    text-xs font-mono text-zinc-200 placeholder:text-zinc-800
+                                    focus:outline-none focus:border-pink-500/50 
+                                "
+                                disabled
+                            />
+                        </div>
                     </div>
                 </div>
 
