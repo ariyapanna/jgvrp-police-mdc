@@ -11,7 +11,7 @@ import type { Column } from "@/components/data-table/types";
 import type { ArrestRecord } from "@/types/arrest-record/arrestRecord";
 import type { ArrestRecordDetail } from "@/types/arrest-record/arrestRecordDetail";
 
-import { getWarrant, getWarrants } from "./api";
+import { getArrestRecords, getArrestRecord } from "./api";
 import { formatDate } from "@/utils/formatDate";
 import { formatCurrency } from "@/utils/formatCurrency";
 import ArrestRecordDetailModal from "./ArrestRecordDetailModal";
@@ -73,7 +73,7 @@ const ArrestRecords = () => {
         setLoading(true);
         try 
         {
-            const response = await getWarrants(searchQuery);
+            const response = await getArrestRecords(searchQuery);
             if(!response.success)
                 throw new Error(response.message);
 
@@ -94,7 +94,7 @@ const ArrestRecords = () => {
         setLoading(true);
         try 
         {
-            const response = await getWarrant(id);
+            const response = await getArrestRecord(id);
             if(!response.success)
                 throw new Error(response.message);
 

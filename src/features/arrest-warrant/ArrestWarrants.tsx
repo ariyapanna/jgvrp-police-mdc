@@ -53,7 +53,7 @@ const columns: Column<ArrestWarrant>[] = [
     },
     {
         key: 'createdAt',
-        header: 'ARRESTED ON',
+        header: 'ISSUED ON',
         render: (row) => <span className="text-[11px] font-black text-zinc-200 uppercase tracking-wide group-hover:text-white transition-colors">{formatDate(row.createdAt)}</span>
     }
 ]

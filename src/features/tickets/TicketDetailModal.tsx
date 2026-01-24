@@ -22,7 +22,7 @@ const TicketDetailModal = ({ open, onClose, ticketData, loading, onDelete }: Tic
         <Modal
             open={open}
             onClose={onClose}
-            title="Issue Ticket"
+            title="Ticket Detail"
             icon={<AlertTriangle className="w-5 h-5 text-pink-500" />}
             size="sm"
         >
@@ -61,7 +61,7 @@ const TicketDetailModal = ({ open, onClose, ticketData, loading, onDelete }: Tic
                             className="
                                 w-full h-40 bg-black border border-white/10 rounded-xl p-4
                                 text-xs font-mono text-pink-100 placeholder:text-zinc-800
-                                focus:outline-none focus:border-pink-500/50 uppercase
+                                focus:outline-none focus:border-pink-500/50
                             "
                             disabled
                         />

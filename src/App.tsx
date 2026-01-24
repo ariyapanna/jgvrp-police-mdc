@@ -8,8 +8,8 @@ import { Page } from './types/page/page';
 import { useHistory } from './context/history.context';
 
 import Home from '@/features/home/Home';
-// import PersonLookup from '@/features/person/PersonLookup';
-// import PersonDetail from '@/features/person/PersonDetail';
+import PersonLookup from '@/features/person/PersonLookup';
+import PersonDetail from '@/features/person/PersonDetail';
 // import VehicleLookup from '@/features/vehicle/VehicleLookup';
 import ArrestWarrants from './features/arrest-warrant/ArrestWarrants';
 import ArrestRecords from './features/arrest-records/ArrestRecords';
@@ -25,8 +25,8 @@ function App() {
         switch(current)
         {
             case Page.HOME: return <Home  />
-            // case Page.PERSON_LOOKUP: return <PersonLookup />;
-            // case Page.PERSON_DETAIL: return <PersonDetail />
+            case Page.PERSON_LOOKUP: return <PersonLookup />;
+            case Page.PERSON_DETAIL: return <PersonDetail />
             // case Page.VEHICLE_LOOKUP: return <VehicleLookup />
             case Page.ARREST_WARRANTS: return <ArrestWarrants />
             case Page.ARREST_RECORDS: return <ArrestRecords />
