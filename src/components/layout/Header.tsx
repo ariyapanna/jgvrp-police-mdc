@@ -38,7 +38,7 @@ const Header = ({ unitPanelState, onToggleUnitPanelClicked }: HeaderProps) => {
                 </div>
                 <div className="leading-none hidden sm:block">
                     <h2 className="text-xs font-bold tracking-wider uppercase">{`${user?.rankNameShort ?? 'N/A'} ${getDisplayName(user?.name)}`}</h2>
-                    <p className="text-[10px] text-gray-500 font-mono mt-0.5">{(!user?.badgeNumber || user?.badgeNumber.length === 0) ? 'N/A' : user?.badgeNumber}</p>
+                    <p className="text-[12px] text-gray-500 font-mono mt-0.5">{(!user?.badgeNumber || user?.badgeNumber.length === 0) ? 'N/A' : `#${user?.badgeNumber}`}</p>
                 </div>
             </div>
 

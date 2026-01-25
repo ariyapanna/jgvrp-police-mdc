@@ -9,8 +9,8 @@ interface CreateBoloModalProps {
   description: string;
   setDescription: (v: string) => void;
 
-  expire: number;
-  setExpire: (e: number) => void;
+  expire: string;
+  setExpire: (e: string) => void;
 
   loading: boolean;
   onSubmit: (e: React.FormEvent) => void;
@@ -36,11 +36,11 @@ const CreateBOLOModal = ({ open, onClose, description, setDescription, expire, s
                             required
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            placeholder="PROVIDE DETAILED DESCRIPTION, VEHICLE PLATES, OR LAST KNOWN LOCATION..."
+                            placeholder="Please enter subject description..."
                             className="
                                 w-full h-40 bg-black border border-white/10 rounded-xl p-4
                                 text-xs font-mono text-orange-100 placeholder:text-zinc-800
-                                focus:outline-none focus:border-orange-500/50 uppercase
+                                focus:outline-none focus:border-orange-500/50
                             "
                         />
                     </div>
@@ -58,13 +58,14 @@ const CreateBOLOModal = ({ open, onClose, description, setDescription, expire, s
                                 min={3}
                                 max={365}
                                 value={expire}
-                                onChange={(e) => setExpire(Number(e.target.value))}
+                                onChange={(e) => setExpire(e.target.value)}
                                 className="
                                     w-full pl-9 pr-3 py-2
                                     bg-black border border-white/10 rounded-lg
-                                    text-xs font-mono text-zinc-200
+                                    text-xs font-mono text-zinc-200 placeholder:text-zinc-800
                                     focus:outline-none focus:border-orange-500/50 
                                 "
+                                placeholder="Please enter days..."
                             />
                         </div>
 

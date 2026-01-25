@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Clock, Timer, Trash2, User } from "lucide-react";
+import { Clock, Radio, Timer, Trash2, User } from "lucide-react";
 import { toast } from "react-toastify";
 
 import SectionPanel from "@/components/section-panel/SectionPanel";
@@ -116,7 +116,7 @@ const BOLO = () => {
     const [dialogState, setDialogState] = useState<boolean>(false);
     const [boloToDelete, setBoloToDelete] = useState<number | null>(null);
 
-    const [expire, setExpire] = useState<number>(3);
+    const [expire, setExpire] = useState<string>('');
     const [description, setDescription] = useState<string>('');
 
     async function handleBOLOCreate(e: React.FormEvent)
@@ -128,10 +128,11 @@ const BOLO = () => {
             if(description.length < 10)
                 throw new Error('Description must be at least 10 characters long.');
 
-            if(expire < 1 || expire > 365)
+            const parsedExpire = +expire;
+            if(parsedExpire < 1 || parsedExpire > 365)
                 throw new Error('Expire must be between 1 and 365 days.');
 
-            const response = await createBOLO({ description, expire });
+            const response = await createBOLO({ description, expire: parsedExpire });
             if(!response.success)
                 throw new Error(response.message);
 
@@ -139,7 +140,7 @@ const BOLO = () => {
 
             setCreateBOLOModalState(false);
             setDescription("");
-            setExpire(0);
+            setExpire('');
 
             toast.success("BOLO successfully broadcasted.");
         }
@@ -251,7 +252,7 @@ const BOLO = () => {
                         </span>
                     </div>
                 }
-                icon={Timer}
+                icon={Radio}
 
                 accent="orange"
 
@@ -270,6 +271,13 @@ const BOLO = () => {
             >
                 {loading ? (
                     <LoadingData />
+                ) : BOLOList.length === 0 ? (
+                    <div className="h-full flex flex-col items-center justify-center gap-3 opacity-30">
+                        <Radio className="w-10 h-10" />
+                        <p className="font-mono uppercase tracking-[0.4em] text-center">
+                            NO RECORDS
+                        </p>
+                    </div>
                 ) : (
                     <div className="flex flex-col gap-4">
                         {BOLOList.map((bolo, index) => (

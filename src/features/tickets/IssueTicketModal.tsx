@@ -1,5 +1,5 @@
 import React from "react";
-import { AlertTriangle, Clock, Plus, User } from "lucide-react";
+import { AlertTriangle, DollarSign, Plus, User } from "lucide-react";
 import Modal from "@/components/common/Modal";
 
 interface IssueTicketModalProps {
@@ -78,7 +78,7 @@ const IssueTicketModal = ({ open, onClose, targetName, setTargetName, reason, se
                         </label>
 
                         <div className="relative">
-                            <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-600" />
+                            <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-600" />
                             <input
                                 min={1}
                                 type="number"

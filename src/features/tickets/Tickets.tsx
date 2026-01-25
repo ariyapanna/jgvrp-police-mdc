@@ -120,8 +120,8 @@ const Tickets = () => {
             if(targetName.length < 3)
                 throw new Error('Target name must be at least 3 characters long.');
 
-            if(reason.length < 10)
-                throw new Error('Description must be at least 10 characters long.');
+            if(reason.length === 0)
+                throw new Error('Please provide a description.');
 
             const parsedFine = +fine;
             if(parsedFine < 50)
