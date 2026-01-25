@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useUser } from "@/context/user.context";
 
-import { ChevronDown, ChevronRight, User, Circle } from "lucide-react";
+import { ChevronDown, ChevronRight, User, Circle, RefreshCw } from "lucide-react";
 import { toast } from "react-toastify";
 
 import { http } from "@/lib/api/http";
@@ -20,6 +20,8 @@ type Department = FactionType;
 const ActiveUnits: React.FC = () => {
     const { user } = useUser();
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     const [units, setUnits] = useState<Unit[]>([]);
     const [collapsed, setCollapsed] = useState<Record<Department, boolean>>({
         LSPD: true,
@@ -29,6 +31,27 @@ const ActiveUnits: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
 
     const userFaction = getFactionKey(user?.factionId);
+
+    async function loadUnits()
+    {
+        setLoading(true);
+        try 
+        {
+            const response = await http<ApiResponse<Unit[]>>(ApiEndpoint.UNITS);
+            if(!response.success) 
+                throw new Error(response.message);
+
+            setUnits(response.data);
+        } 
+        catch (error: any) 
+        {
+            setError(error.message);
+        }
+        finally
+        {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         if(!userFaction) 
@@ -42,21 +65,7 @@ const ActiveUnits: React.FC = () => {
     }, [user]);
 
     useEffect(() => {
-        const loadUnits = async () => {
-            try 
-            {
-                const response = await http<ApiResponse<Unit[]>>(ApiEndpoint.UNITS);
-                if(!response.success) throw new Error(response.message);
-
-                setUnits(response.data);
-            } 
-            catch (error: any) 
-            {
-                setError(error.message);
-            }
-        };
-
-    loadUnits();
+        loadUnits();
     }, []);
 
     useEffect(() => {
@@ -145,9 +154,21 @@ const ActiveUnits: React.FC = () => {
                 <h3 className="text-[10px] font-black tracking-[0.3em] uppercase text-white/40">
                     Active Units
                 </h3>
-                <div className="flex items-center gap-1.5">
-                    <Circle className="w-1.5 h-1.5 fill-emerald-500 text-emerald-500 animate-pulse" />
-                    <span className="text-xs font-mono text-emerald-500/80 uppercase">Network Live</span>
+                <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1.5">
+                        <Circle className="w-1.5 h-1.5 fill-emerald-500 text-emerald-500 animate-pulse" />
+                        <span className="text-xs font-mono text-emerald-500/80 uppercase">Live</span>
+                    </div>
+                    <button
+                        disabled={loading}
+                        onClick={async () => {
+                            await loadUnits();
+                            toast.success("Units refreshed.");
+                        }}
+                        className="hover:cursor-pointer"
+                    >
+                        <RefreshCw className="w-3.5 h-3.5 text-gray-500 hover:text-white transition-colors" />
+                    </button>
                 </div>
             </div>
         </div>

@@ -656,7 +656,7 @@ const PersonDetail = () => {
                     columns={arrestRecordColumns}
                     data={person.arrests}
                     rowKey={row => row.id}
-                    emptyMessage="No crime records found"
+                    emptyMessage="No arrest records found"
                 />
             </div>
 

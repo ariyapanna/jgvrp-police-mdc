@@ -10,15 +10,17 @@ import { useHistory } from './context/history.context';
 import Home from '@/features/home/Home';
 import PersonLookup from '@/features/person/PersonLookup';
 import PersonDetail from '@/features/person/PersonDetail';
-// import VehicleLookup from '@/features/vehicle/VehicleLookup';
+import VehicleLookup from '@/features/vehicle/VehicleLookup';
 import ArrestWarrants from './features/arrest-warrant/ArrestWarrants';
 import ArrestRecords from './features/arrest-records/ArrestRecords';
 import Tickets from '@/features/tickets/Tickets';
 import BOLO from '@/features/bolo/BOLO';
 import TracePhone from '@/features/trace-phone/TracePhone';
+import ScanQrCode from './features/scan-qr-code/ScanQRCode';
 
 function App() {
     const { current } = useHistory();
+
     const [unitPanelState, setUnitPanelState] = useState<boolean>(false);
 
     const renderPage = () => {
@@ -27,12 +29,13 @@ function App() {
             case Page.HOME: return <Home  />
             case Page.PERSON_LOOKUP: return <PersonLookup />;
             case Page.PERSON_DETAIL: return <PersonDetail />
-            // case Page.VEHICLE_LOOKUP: return <VehicleLookup />
+            case Page.VEHICLE_LOOKUP: return <VehicleLookup />
             case Page.ARREST_WARRANTS: return <ArrestWarrants />
             case Page.ARREST_RECORDS: return <ArrestRecords />
             case Page.TICKETS: return <Tickets />
             case Page.BOLO: return <BOLO />
             case Page.PHONE_TRACE: return <TracePhone />;
+            case Page.QR_CODE: return <ScanQrCode />
             default: return 'Under Development';
         }
     }

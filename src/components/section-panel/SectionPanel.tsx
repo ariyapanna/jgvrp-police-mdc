@@ -41,7 +41,7 @@ const SectionPanel = ({ title, subtitle, icon: Icon, actions, children, accent =
   const styles = ACCENT_STYLES[accent];
 
   return (
-    <div className="flex flex-col h-full min-h-0">
+    <div className="flex flex-col h-full min-h-0 font-mono">
         {/* Header */}
         <div className="flex-shrink-0 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between border-b border-zinc-800 px-4 py-3">
             <div className="flex items-center gap-4">
