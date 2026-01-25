@@ -223,6 +223,8 @@ const ArrestWarrants = () => {
             if(!response.success)
                 throw new Error(response.message);
 
+            setWarrantDetailModalState(false);
+
             await loadWarrants();
             toast.success('Warrant successfully deleted.');
         }
