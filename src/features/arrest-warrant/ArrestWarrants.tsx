@@ -247,48 +247,6 @@ const ArrestWarrants = () => {
 
     return (
         <>
-            <ConfirmDialog
-                open={deleteConfirmDialogState}
-
-                onClose={() => setDeleteConfirmDialogState(false)}
-                onConfirm={async () => {
-                    if(warrantToDelete == null)
-                        return;
-
-                    await handleWarrantDelete(warrantToDelete);
-                    setDeleteConfirmDialogState(false);
-                    setWarrantToDelete(null);
-                }}
-
-                icon={<Trash2 className="w-4 h-4 text-red-500" />}
-                title="Delete Warrant"
-                description="Are you sure you want to delete this warrant?"
-
-                loading={loading}
-                danger={true}
-            />
-
-            <ConfirmDialog 
-                open={updateConfirmDialogState}
-
-                onClose={() => setUpdateConfirmDialogState(false)}
-                onConfirm={async() => {
-                    if(warrantToUpdate == null)
-                        return;
-
-                    await handleWarrantUpdate(warrantToUpdate);
-                    setUpdateConfirmDialogState(false);
-                    setWarrantToUpdate(null);
-                }}
-
-                icon={<Info className="w-4 h-4 text-green-500" />}
-                title="Update Warrant"
-                description="Are you sure you want to update this warrant?"
-
-                loading={loading}
-                danger={true}
-            />
-
             <CreateWarrantModal
                 open={createWarrantModalState}
                 onClose={() => setCreateWarrantModalState(false)}
@@ -340,6 +298,48 @@ const ArrestWarrants = () => {
                     }}
                 />
             )}
+
+            <ConfirmDialog
+                open={deleteConfirmDialogState}
+
+                onClose={() => setDeleteConfirmDialogState(false)}
+                onConfirm={async () => {
+                    if(warrantToDelete == null)
+                        return;
+
+                    await handleWarrantDelete(warrantToDelete);
+                    setDeleteConfirmDialogState(false);
+                    setWarrantToDelete(null);
+                }}
+
+                icon={<Trash2 className="w-4 h-4 text-red-500" />}
+                title="Delete Warrant"
+                description="Are you sure you want to delete this warrant?"
+
+                loading={loading}
+                danger={true}
+            />
+
+            <ConfirmDialog 
+                open={updateConfirmDialogState}
+
+                onClose={() => setUpdateConfirmDialogState(false)}
+                onConfirm={async() => {
+                    if(warrantToUpdate == null)
+                        return;
+
+                    await handleWarrantUpdate(warrantToUpdate);
+                    setUpdateConfirmDialogState(false);
+                    setWarrantToUpdate(null);
+                }}
+
+                icon={<Info className="w-4 h-4 text-yellow-500" />}
+                title="Update Warrant"
+                description="Are you sure you want to update this warrant?"
+
+                loading={loading}
+                danger={true}
+            />
 
             <SectionPanel
                 title="Arrest Warrants"
