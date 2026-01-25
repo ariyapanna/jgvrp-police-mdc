@@ -42,7 +42,7 @@ const TracePhone = () => {
             await delay(500);
             setStage(TraceStage.SUCCESS);
 
-            toast.success("Location acquired");
+            toast.success("Location acquired.");
         }
         catch(error: any)
         {

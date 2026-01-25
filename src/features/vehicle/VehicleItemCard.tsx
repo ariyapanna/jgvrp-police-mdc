@@ -38,7 +38,7 @@ const VehicleItemCard = ({ vehicle, onClick }: VehicleItemCardProps) => {
             onClick={onClick}
             onBadgeClick={() => {
                 copyToClipboard(vehicle.numberPlate)
-                toast.success("Plate copied");
+                toast.info("Plate copied to clipboard");
             }}
         />
     );

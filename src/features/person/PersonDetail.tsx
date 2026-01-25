@@ -534,7 +534,7 @@ const PersonDetail = () => {
                                         title="Click to copy"
                                         onClick={() => {
                                             copyToClipboard(phoneNumber);
-                                            toast.info("Phone number copied");
+                                            toast.info("Phone number copied to clipboard.");
                                         }}
                                     >
                                         {phoneNumber}
