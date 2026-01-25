@@ -34,7 +34,7 @@ const PersonLookup = () => {
                 throw new Error(response.message);
 
             setPersons(response.data);
-            toast.success(`Found ${response.data.length} person(s)`);
+            toast.info(`Found ${response.data.length} person(s)`);
         }
         catch(error: any)
         {

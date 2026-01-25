@@ -25,11 +25,12 @@ const TracePhone = () => {
                 throw new Error("Please enter a phone number.");
 
             setStage(TraceStage.INIT);
+            await Promise.resolve()
 
-            await delay(600);
+            await delay(1200);
             setStage(TraceStage.PINGING);
 
-            await delay(800);
+            await delay(2400);
             setStage(TraceStage.TRIANGULATING);
 
             const response = await tracePhone(searchQuery);
