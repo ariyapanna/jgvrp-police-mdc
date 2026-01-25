@@ -6,6 +6,7 @@ import type { Ticket } from "@/types/ticket/ticket";
 import { formatDate } from "@/utils/formatDate";
 import { TicketStatus } from "@/types/ticket/ticketStatus";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { useUser } from "@/context/user.context";
 
 interface TicketDetailModalProps {
     open: boolean;
@@ -18,6 +19,8 @@ interface TicketDetailModalProps {
 }
 
 const TicketDetailModal = ({ open, onClose, ticketData, loading, onDelete }: TicketDetailModalProps) => {
+    const { user } = useUser();
+
     return (
         <Modal
             open={open}
@@ -178,7 +181,7 @@ const TicketDetailModal = ({ open, onClose, ticketData, loading, onDelete }: Tic
                     )}
                 </div>
 
-                {ticketData.status == TicketStatus.PENDING && (
+                {ticketData.status == TicketStatus.PENDING && (ticketData.issuerName === user?.name || (user?.rank ?? 0) >= 4) && (
                     <button
                         onClick={() => onDelete(ticketData.id)}
                         disabled={loading}

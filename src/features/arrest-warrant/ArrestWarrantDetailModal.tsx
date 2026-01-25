@@ -1,4 +1,5 @@
 import Modal from "@/components/common/Modal"
+import { useUser } from "@/context/user.context"
 import type { ArrestWarrant } from "@/types/arrest-warrant/arrestWarrant"
 import { formatDate } from "@/utils/formatDate"
 
@@ -30,6 +31,7 @@ interface ArrestWarrantDetailModalProps
 }
 
 const ArrestWarrantDetailModal = ({ open, onClose, targetName, setTargetName, reason, setReason, duration, setDuration, fine, setFine, arrestWarrantData, loading, onUpdate, onDelete }: ArrestWarrantDetailModalProps) => {
+    const { user } = useUser();
 
     return (
         <Modal
@@ -202,31 +204,33 @@ const ArrestWarrantDetailModal = ({ open, onClose, targetName, setTargetName, re
                         Update Warrant
                     </button>
 
-                    <button
-                        onClick={() => onDelete(arrestWarrantData.id)}
-                        disabled={loading}
-                        type="button"
-                        className="
-                            w-full py-2.5
-                            bg-red-600
-                            text-white text-xs font-black uppercase tracking-widest
-                            rounded-lg
-                            shadow shadow-red-600/20
-                            flex items-center justify-center gap-2
-                            transition-all
+                    {user?.rank === 10 && (
+                        <button
+                            onClick={() => onDelete(arrestWarrantData.id)}
+                            disabled={loading}
+                            type="button"
+                            className="
+                                w-full py-2.5
+                                bg-red-600
+                                text-white text-xs font-black uppercase tracking-widest
+                                rounded-lg
+                                shadow shadow-red-600/20
+                                flex items-center justify-center gap-2
+                                transition-all
 
-                            hover:bg-red-500
+                                hover:bg-red-500
 
-                            disabled:bg-red-600/40
-                            disabled:text-white/40
-                            disabled:shadow-none
-                            disabled:cursor-not-allowed
-                            disabled:hover:bg-red-600/40
-                        "
-                    >
-                        <Trash2 className="w-3.5 h-3.5" />
-                        Delete Warrant
-                    </button>
+                                disabled:bg-red-600/40
+                                disabled:text-white/40
+                                disabled:shadow-none
+                                disabled:cursor-not-allowed
+                                disabled:hover:bg-red-600/40
+                            "
+                        >
+                            <Trash2 className="w-3.5 h-3.5" />
+                            Delete Warrant
+                        </button>
+                    )}
                 </div>
             </form>  
         </Modal>
