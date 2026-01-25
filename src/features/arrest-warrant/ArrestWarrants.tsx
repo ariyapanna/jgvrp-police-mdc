@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { ShieldAlert, Trash2 } from "lucide-react";
+import { Info, ShieldAlert, Trash2 } from "lucide-react";
 
 import SearchAction from "@/components/section-panel/actions/SearchAction";
 import SectionPanel from "@/components/section-panel/SectionPanel";
@@ -61,7 +61,9 @@ const columns: Column<ArrestWarrant>[] = [
 const ArrestWarrants = () => {
     const [warrants, setWarrants] = useState<ArrestWarrant[]>([]);
     const [warrantDetail, setWarrantDetail] = useState<ArrestWarrant | null>(null);
+
     const [warrantToDelete, setWarrantToDelete] = useState<number | null>(null);
+    const [warrantToUpdate, setWarrantToUpdate] = useState<number | null>(null);
     
     const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -80,7 +82,9 @@ const ArrestWarrants = () => {
 
     const [createWarrantModalState, setCreateWarrantModalState] = useState<boolean>(false);
     const [warrantDetailModalState, setWarrantDetailModalState] = useState<boolean>(false);
-    const [confirmDialogState, setConfirmDialogState] = useState<boolean>(false);
+
+    const [deleteConfirmDialogState, setDeleteConfirmDialogState] = useState<boolean>(false);
+    const [updateConfirmDialogState, setUpdateConfirmDialogState] = useState<boolean>(false);
 
     async function loadWarrants()
     {
@@ -118,7 +122,7 @@ const ArrestWarrants = () => {
             setUpdateTargetName(name);
             setUpdateReason(reason);
             setUpdateDuration(duration.toString());
-            setUpdateFine(fine.toString());
+            setUpdateFine((fine / 100).toString());
 
             setWarrantDetailModalState(true);
         }
@@ -244,21 +248,42 @@ const ArrestWarrants = () => {
     return (
         <>
             <ConfirmDialog
-                open={confirmDialogState}
+                open={deleteConfirmDialogState}
 
-                onClose={() => setConfirmDialogState(false)}
+                onClose={() => setDeleteConfirmDialogState(false)}
                 onConfirm={async () => {
                     if(warrantToDelete == null)
                         return;
 
                     await handleWarrantDelete(warrantToDelete);
-                    setConfirmDialogState(false);
+                    setDeleteConfirmDialogState(false);
                     setWarrantToDelete(null);
                 }}
 
                 icon={<Trash2 className="w-4 h-4 text-red-500" />}
                 title="Delete Warrant"
                 description="Are you sure you want to delete this warrant?"
+
+                loading={loading}
+                danger={true}
+            />
+
+            <ConfirmDialog 
+                open={updateConfirmDialogState}
+
+                onClose={() => setUpdateConfirmDialogState(false)}
+                onConfirm={async() => {
+                    if(warrantToUpdate == null)
+                        return;
+
+                    await handleWarrantUpdate(warrantToUpdate);
+                    setUpdateConfirmDialogState(false);
+                    setWarrantToUpdate(null);
+                }}
+
+                icon={<Info className="w-4 h-4 text-green-500" />}
+                title="Update Warrant"
+                description="Are you sure you want to update this warrant?"
 
                 loading={loading}
                 danger={true}
@@ -305,8 +330,14 @@ const ArrestWarrants = () => {
 
                     loading={loading}
 
-                    onUpdate={(id) => handleWarrantUpdate(id)}
-                    onDelete={(id) => handleWarrantDelete(id)}
+                    onUpdate={(id) => {
+                        setWarrantToUpdate(id);
+                        setUpdateConfirmDialogState(true);
+                    }}
+                    onDelete={(id) => {
+                        setWarrantToDelete(id);
+                        setDeleteConfirmDialogState(true);
+                    }}
                 />
             )}
 
