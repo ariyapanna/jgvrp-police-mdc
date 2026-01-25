@@ -7,7 +7,8 @@ export const ApiEndpoint = {
     ARREST_RECORD: 'arrest',
     TICKET: 'ticket',
     BOLO: 'bolo',
-    TRACE_PHONE: 'trace'
+    TRACE_PHONE: 'trace',
+    CLOSE_MDC: 'close'
 }
 
 export type ApiEndpoint = typeof ApiEndpoint[keyof typeof ApiEndpoint];
